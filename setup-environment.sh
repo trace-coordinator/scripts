@@ -63,12 +63,24 @@ if [[ ! -d "$local_folder"/another-trace-coordinator ]]; then
     echo -e "\n<---------- DOWNLOAD TRACE-COORDINATOR ---------->\n"
     (
         set -euo pipefail
-        git clone https://github.com/haoadoresorange/another-trace-coordinator.git "$local_folder"/another-trace-coordinator
+        git clone https://github.com/trace-coordinator/another-trace-coordinator.git "$local_folder"/another-trace-coordinator
         cd "$local_folder"/another-trace-coordinator
         yarn
     )
 fi
-if [[ ! -d "$local_folder"/trace-server-script ]]; then
-    echo -e "\n<---------- DOWNLOAD TRACE-SERVER-SCRIPT ---------->\n"
-    git clone https://github.com/haoadoresorange/trace-server-script.git "$local_folder"/trace-server-script
+
+if [[ ! -d "$local_folder"/scripts ]]; then
+    echo -e "\n<---------- DOWNLOAD SCRIPTS ---------->\n"
+    git clone https://github.com/trace-coordinator/scripts.git "$local_folder"/trace-server-script
 fi
+
+if [[ ! -d "$local_folder"/trace-compass-server ]]; then
+    echo -e "\n<---------- DOWNLOAD TRACE COMPASS SERVER ---------->\n"
+    git clone https://github.com/trace-coordinator/trace-compass-server-dev-builds.git "$local_folder"/trace-compass-server
+fi
+
+src=". \"$(realpath "$BASH_SOURCE")\""
+if [[ ! "$(cat "$HOME"/.bashrc)" =~ "$src" ]]; then
+    echo -e "\n<---------- CONFIG .BASHRC ---------->\n"
+    echo "$src" >> "$HOME"/.bashrc
+fi 
