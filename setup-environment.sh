@@ -33,19 +33,18 @@ if [[ -d "$NVM_DIR" ]]; then
 else
     echo -e "\n<---------- INSTALL NVM ---------->\n"
     git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
-fi
-(
-    set -euo pipefail
-
-    cd "$NVM_DIR"
-    git fetch --tags origin
-    git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))
     cat >"$NVM_DIR"/default-packages <<'EOF'
 yarn
 syncyarnlock
 all-the-package-names
 gitpkg
 EOF
+fi
+(
+    set -euo pipefail
+    cd "$NVM_DIR"
+    git fetch --tags origin
+    git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))
 )
 source_nvm
 if [[ ! -d "$NVM_DIR"/versions/node/"$(nvm ls-remote --lts | tail -1 |
@@ -59,28 +58,44 @@ fi
 #     echo -e "\n<---------- COPY TRACES ---------->\n"
 #     cp -r ~/lttng-traces/ $local_folder/
 # fi
-if [[ ! -d "$local_folder"/another-trace-coordinator ]]; then
+trace_coordinator="$local_folder"/another-trace-coordinator
+if [[ -d "$trace_coordinator" ]]; then
+    echo -e "\n<---------- UPDATE TRACE-COORDINATOR ---------->\n"
+else
     echo -e "\n<---------- DOWNLOAD TRACE-COORDINATOR ---------->\n"
+    git clone https://github.com/trace-coordinator/another-trace-coordinator.git "$trace_coordinator"
+fi
+(
+    set -euo pipefail
+    cd "$trace_coordinator"
+    git pull
+    yarn
+)
+
+trace_scripts="$local_folder"/trace-server-scripts
+if [[ -d "$trace_scripts" ]]; then
+    echo -e "\n<---------- UPDATE SCRIPTS ---------->\n"
     (
-        set -euo pipefail
-        git clone https://github.com/trace-coordinator/another-trace-coordinator.git "$local_folder"/another-trace-coordinator
-        cd "$local_folder"/another-trace-coordinator
-        yarn
+        cd "$trace_scripts" && git pull
     )
-fi
-
-if [[ ! -d "$local_folder"/scripts ]]; then
+else
     echo -e "\n<---------- DOWNLOAD SCRIPTS ---------->\n"
-    git clone https://github.com/trace-coordinator/scripts.git "$local_folder"/trace-server-script
+    git clone https://github.com/trace-coordinator/scripts.git "$trace_scripts"
 fi
 
-if [[ ! -d "$local_folder"/trace-compass-server ]]; then
+trace_server="$local_folder"/trace-compass-server
+if [[ -d "$trace_server" ]]; then
+    echo -e "\n<---------- UPDATE TRACE COMPASS SERVER ---------->\n"
+    (
+        cd "$trace_server" && git pull
+    )
+else
     echo -e "\n<---------- DOWNLOAD TRACE COMPASS SERVER ---------->\n"
-    git clone https://github.com/trace-coordinator/trace-compass-server-dev-builds.git "$local_folder"/trace-compass-server
+    git clone https://github.com/trace-coordinator/trace-compass-server-dev-builds.git "$trace_server"
 fi
 
 src=". \"$(realpath "$BASH_SOURCE")\""
 if [[ ! "$(cat "$HOME"/.bashrc)" =~ "$src" ]]; then
     echo -e "\n<---------- CONFIG .BASHRC ---------->\n"
-    echo "$src" >> "$HOME"/.bashrc
-fi 
+    echo "$src" >>"$HOME"/.bashrc
+fi
