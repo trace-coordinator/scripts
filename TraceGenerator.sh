@@ -1,9 +1,9 @@
 #!/bin/bash
-for i in {0..899}; do
-    lttng create benchmark_"$i" --output=/home/baby/lttng-traces/1000traces/benchmark_"$i"
-    lttng enable-event -a -k
+for i in 1 2 5 7 10 15 20 30 50 70 100; do
+    lttng create benchmark-"$i" --output=/home/baby/lttng-traces/big-traces/benchmark-"$i"
+    lttng enable-event --kernel --all
     lttng start
-    sleep 10
+    sleep $((60*$i))
     lttng stop
     lttng destroy
 done

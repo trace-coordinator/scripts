@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEFAULT_LOCAL_FOLDER="/home/ubuntu"
+DEFAULT_LOCAL_FOLDER="/home/tmp/h4o"
 local_folder="${1:-"$DEFAULT_LOCAL_FOLDER"}"
 
 java_installation="$local_folder"/.java
@@ -54,16 +54,12 @@ if [[ ! -d "$NVM_DIR"/versions/node/"$(nvm ls-remote --lts | tail -1 |
     nvm install --lts
 fi
 
-# if [[ ! -d $local_folder/lttng-traces ]]; then
-#     echo -e "\n<---------- COPY TRACES ---------->\n"
-#     cp -r ~/lttng-traces/ $local_folder/
-# fi
-trace_coordinator="$local_folder"/another-trace-coordinator
+trace_coordinator="$local_folder"/trace-coordinator
 if [[ -d "$trace_coordinator" ]]; then
     echo -e "\n<---------- UPDATE TRACE-COORDINATOR ---------->\n"
 else
     echo -e "\n<---------- DOWNLOAD TRACE-COORDINATOR ---------->\n"
-    git clone https://github.com/trace-coordinator/another-trace-coordinator.git "$trace_coordinator"
+    git clone https://github.com/trace-coordinator/trace-coordinator.git "$trace_coordinator"
 fi
 (
     set -euo pipefail
@@ -83,16 +79,16 @@ else
     git clone https://github.com/trace-coordinator/scripts.git "$trace_scripts"
 fi
 
-trace_server="$local_folder"/trace-compass-server
-if [[ -d "$trace_server" ]]; then
-    echo -e "\n<---------- UPDATE TRACE COMPASS SERVER ---------->\n"
-    (
-        cd "$trace_server" && git pull
-    )
-else
-    echo -e "\n<---------- DOWNLOAD TRACE COMPASS SERVER ---------->\n"
-    git clone https://github.com/trace-coordinator/trace-compass-server-dev-builds.git "$trace_server"
-fi
+# trace_server="$local_folder"/trace-compass-server
+# if [[ -d "$trace_server" ]]; then
+#     echo -e "\n<---------- UPDATE TRACE COMPASS SERVER ---------->\n"
+#     (
+#         cd "$trace_server" && git pull
+#     )
+# else
+#     echo -e "\n<---------- DOWNLOAD TRACE COMPASS SERVER ---------->\n"
+#     git clone https://github.com/trace-coordinator/trace-compass-server-dev-builds.git "$trace_server"
+# fi
 
 src=". \"$(realpath "$BASH_SOURCE")\""
 if [[ ! "$(cat "$HOME"/.bashrc)" =~ "$src" ]]; then
