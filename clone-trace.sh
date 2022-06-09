@@ -8,9 +8,9 @@ else
     limit=$2
 fi
 
-mkdir -p "$original"_clones
+mkdir -p "$original"-clones
 for (( i = 0; i < $limit; i++ )); do
     cp -R "$original" "$original"-clones/clone-$i
 done
 
-python3 UUID_changer.py "$original"_clones
+python3 UUID_changer.py "$original"-clones
