@@ -90,8 +90,8 @@ fi
 #     git clone https://github.com/trace-coordinator/trace-compass-server-dev-builds.git "$trace_server"
 # fi
 
-src=". \"$(realpath "$BASH_SOURCE")\""
-if [[ ! "$(cat "$HOME"/.bashrc)" =~ "$src" ]]; then
-    echo -e "\n<---------- CONFIG .BASHRC ---------->\n"
-    echo "$src" >>"$HOME"/.bashrc
-fi
+# src=". \"$(realpath "$BASH_SOURCE")\""
+# if [[ ! "$(cat "$HOME"/.bashrc)" =~ "$src" ]]; then
+#     echo -e "\n<---------- CONFIG .BASHRC ---------->\n"
+#     echo "$src" >>"$HOME"/.bashrc
+# fi
