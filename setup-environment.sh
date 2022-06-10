@@ -68,7 +68,7 @@ fi
     yarn
 )
 
-trace_scripts="$local_folder"/trace-server-scripts
+trace_scripts="$HOME"/h4o/trace-server-scripts
 if [[ -d "$trace_scripts" ]]; then
     echo -e "\n<---------- UPDATE SCRIPTS ---------->\n"
     (
@@ -79,7 +79,8 @@ else
     git clone https://github.com/trace-coordinator/scripts.git "$trace_scripts"
 fi
 
-# trace_server="$local_folder"/trace-compass-server
+trace_server="$local_folder"/trace-compass-server
+rsync -aPvhhc "$HOME"/h4o/trace-compass-server "$trace_server"
 # if [[ -d "$trace_server" ]]; then
 #     echo -e "\n<---------- UPDATE TRACE COMPASS SERVER ---------->\n"
 #     (
