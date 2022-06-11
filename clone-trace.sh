@@ -2,15 +2,13 @@
 set -euo pipefail
 
 original="$(readlink -f "$1")"
-if [[ $(( ${2-} )) == 0 ]];then
-    limit=20
+if [[ -z "${2-}" ]]; then
+    echo "ERROR: How many clone do you want ?"
+    exit 1
 else
-    limit=$2
+    mkdir -p "$original"-clones
+    for ((i = 0; i < "$0"; i++)); do
+        cp -R "$original" "$original"-clones/clone-"$i"
+    done
+    python3 "$0"/UUID_changer.py "$original"-clones
 fi
-
-mkdir -p "$original"-clones
-for (( i = 0; i < $limit; i++ )); do
-    cp -R "$original" "$original"-clones/clone-$i
-done
-
-python3 UUID_changer.py "$original"-clones

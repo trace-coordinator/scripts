@@ -79,6 +79,7 @@ else
     git clone https://github.com/trace-coordinator/scripts.git "$trace_scripts"
 fi
 
+echo -e "\n<---------- UPDATE TRACE COMPASS SERVER ---------->\n"
 trace_server="$local_folder"/trace-compass-server
 rsync -aPvhhc "$HOME"/h4o/trace-compass-server "$trace_server"
 # if [[ -d "$trace_server" ]]; then
