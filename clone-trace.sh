@@ -7,7 +7,7 @@ if [[ -z "${2-}" ]]; then
     exit 1
 else
     mkdir -p "$original"-clones
-    for ((i = 0; i < "$0"; i++)); do
+    for ((i = 0; i < "$2"; i++)); do
         cp -R "$original" "$original"-clones/clone-"$i"
     done
     python3 "$0"/UUID_changer.py "$original"-clones
