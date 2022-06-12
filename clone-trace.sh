@@ -10,5 +10,5 @@ else
     for ((i = 0; i < "$2"; i++)); do
         cp -R "$original" "$original"-clones/clone-"$i"
     done
-    python3 "$0"/UUID_changer.py "$original"-clones
+    python3 "$(dirname "$0")"/UUID_changer.py "$original"-clones
 fi
