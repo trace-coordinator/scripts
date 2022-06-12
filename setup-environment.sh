@@ -81,7 +81,7 @@ fi
 
 echo -e "\n<---------- UPDATE TRACE COMPASS SERVER ---------->\n"
 trace_server="$local_folder"/trace-compass-server
-rsync -aPvhhc "$HOME"/h4o/trace-compass-server "$trace_server"
+rsync -aPvhhc "$HOME"/h4o/trace-compass-server/ "$trace_server"
 # if [[ -d "$trace_server" ]]; then
 #     echo -e "\n<---------- UPDATE TRACE COMPASS SERVER ---------->\n"
 #     (
